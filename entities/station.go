@@ -15,8 +15,8 @@ type TrainStation struct {
 	Class           int64     `json:"class"gorm:"not null;"`
 	Lat             float64 `json:"lat"gorm:"not null;type:decimal(10,6);"`
 	Long            float64  `json:"long"gorm:"not null;type:decimal(10,6);"`
-	Active          bool     `json:"active"gorm:""`
-	Giveway         bool     `json:"giveway"gorm:"not null;"`
-	DualTrack       bool     `json:"dual_track"gorm:"not null;"`
+	Active          int8     `json:"active"`
+	Giveway         int8     `json:"giveway"`
+	DualTrack       int8     `json:"dual_track"`
 	Comment         string  `json:"comment"gorm:"type:varchar(64);"`
 }

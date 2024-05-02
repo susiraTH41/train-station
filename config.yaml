@@ -1,0 +1,18 @@
+server:
+  port: 8080
+  allowOrigins:
+    - "*"
+  bodyLimit: "10M" # MiB
+  timeout: 30 # Seconds
+ 
+migration :
+  host: "https://data.go.th/dataset/9bccd66e-8b14-414d-93d5-da044569350c/resource/70e1ac97-edfe-4751-8965-6bbe16fb21b4/download/data_station.json"
+
+database:
+  host: localhost
+  port: 5432
+  user: postgres
+  password: 123456
+  dbname: trainstations
+  sslmode: disable
+  schema: public

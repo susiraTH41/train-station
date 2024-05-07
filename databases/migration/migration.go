@@ -19,7 +19,7 @@ func main() {
 
 	tx := db.Connect().Begin()
 
-	AddStationFromAPI(tx, conf.MigrationData.GetStationUrl)
+	AddStationFromAPI(tx, conf.LinkAPI.GetStationUrl)
 
 	if err := tx.Commit().Error; err != nil {
 		tx.Rollback()
@@ -28,29 +28,33 @@ func main() {
 
 }
 
+
 func TrainStationData(db databases.Database) {
 	db.Connect().Migrator().CreateTable(&entities.TrainStation{})
 
 }
 
 func AddStationFromAPI(tx *gorm.DB, url string) {
-	res, err := http.Get(url)
+	resp, err := http.Get(url)
 
 	if err != nil {
 		panic(err.Error())
 	}
 
-	defer res.Body.Close()
+	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := ioutil.ReadAll(resp.Body)
+
+	// fmt.Println(body)
 
 	if err != nil {
 		panic(err.Error())
 	}
-
 	var stationJsonList []entities.TrainStation
 
 	json.Unmarshal(body, &stationJsonList)
 
+
 	tx.CreateInBatches(stationJsonList, len(stationJsonList))
 }
+

@@ -1,0 +1,260 @@
+{
+	"info": {
+		"_postman_id": "d058138b-2fc8-4c13-9e32-1d9febe44098",
+		"name": "Train station",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20074310"
+	},
+	"item": [
+		{
+			"name": "get station near me",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/v1/train-station/getstationclosetome?lat=14.562258&long=100.724091&number=3",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"train-station",
+						"getstationclosetome"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "14.562258"
+						},
+						{
+							"key": "long",
+							"value": "100.724091"
+						},
+						{
+							"key": "number",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get auth",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/v1/auth",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"auth"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "14.562258",
+							"disabled": true
+						},
+						{
+							"key": "long",
+							"value": "100.724091",
+							"disabled": true
+						},
+						{
+							"key": "number",
+							"value": "3",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get station near me on page",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/v1/train-station/getstationclosetomeonpage?lat=14.562258&long=100.724091&page=3&size=3",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"train-station",
+						"getstationclosetomeonpage"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "14.562258"
+						},
+						{
+							"key": "long",
+							"value": "100.724091"
+						},
+						{
+							"key": "page",
+							"value": "3"
+						},
+						{
+							"key": "size",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "health check",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/v1/health",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v1",
+						"health"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200 - ok",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/v1/health",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"health"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=UTF-8"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 03 May 2024 15:42:18 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "2"
+						}
+					],
+					"cookie": [],
+					"body": "OK"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}

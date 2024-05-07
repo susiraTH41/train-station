@@ -4,9 +4,12 @@ server:
     - "*"
   bodyLimit: "10M" # MiB
   timeout: 30 # Seconds
- 
-migration :
-  host: "https://data.go.th/dataset/9bccd66e-8b14-414d-93d5-da044569350c/resource/70e1ac97-edfe-4751-8965-6bbe16fb21b4/download/data_station.json"
+
+auth:
+  secret: "TestSecret"
+
+linkapi :
+  trainstation: "https://data.go.th/dataset/9bccd66e-8b14-414d-93d5-da044569350c/resource/70e1ac97-edfe-4751-8965-6bbe16fb21b4/download/data_station.json"
 
 database:
   host: localhost
@@ -16,3 +19,4 @@ database:
   dbname: trainstations
   sslmode: disable
   schema: public
+

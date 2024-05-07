@@ -13,11 +13,16 @@ type (
 	Config struct {
 		Server   *Server   `mapstructure:"server" validate:"required"`
 		Database *Database `mapstructure:"database" validate:"required"`
-		MigrationData *MigrationData `mapstructure:"migration" validate:"required"`
+		LinkAPI *LinkAPI `mapstructure:"linkapi" validate:"required"`
+		Auth *Auth `mapstructure:"auth" validate:"required"`
 	}
 
-	MigrationData struct{
-		GetStationUrl string `mapstructure:"host" validate:"required"`
+	LinkAPI struct{
+		GetStationUrl string `mapstructure:"trainstation" validate:"required"`
+	}
+
+	Auth struct{
+		Secret string `mapstructure:"secret" validate:"required"`
 	}
 
 	Server struct {

@@ -1,7 +1,6 @@
 package repository
 
 import (
-
 	"github.com/labstack/echo/v4"
 	"github.com/susiraTH41/train-station/databases"
 
@@ -24,7 +23,6 @@ var distance_calculation = `SQRT(POWER(train_stations.lat - ?,2) +  POWER(train_
 
 func (r *trainStationRepositoryImpl) GetStationNearMe(stationFilter *_trainStationModel.StationFilter) ([]*entities.TrainStation, error){
 	trainStation := make([]*entities.TrainStation, 0)
-
 	numLimit := stationFilter.Count
 
 	err := r.db.Connect().Table("train_stations").
@@ -46,7 +44,7 @@ func (r *trainStationRepositoryImpl) GetStationNearMe(stationFilter *_trainStati
 
 func (r *trainStationRepositoryImpl) GetStationNearMeOnPage(stationFilter *_trainStationModel.StationPaginateFilter) ([]*entities.TrainStation, error){
 	trainStation := make([]*entities.TrainStation, 0)
-
+	
 	offset := int((stationFilter.Page - 1) * stationFilter.Size)
 	limit := int(stationFilter.Size)
 
@@ -58,7 +56,7 @@ func (r *trainStationRepositoryImpl) GetStationNearMeOnPage(stationFilter *_trai
 		Offset(offset).Limit(int(limit)).
         Scan(&trainStation).Error	
 
-
+	
 
 	if err != nil {
 		r.logger.Errorf("Failed to train stations on page: %s", err.Error())
@@ -69,3 +67,22 @@ func (r *trainStationRepositoryImpl) GetStationNearMeOnPage(stationFilter *_trai
 
 }
 
+
+func (r *trainStationRepositoryImpl) CountStationNearMe(stationFilter *_trainStationModel.StationPaginateFilter) (int64, error){
+	var count int64
+
+	err := r.db.Connect().Table("train_stations").
+        Select("train_stations.id, train_stations.en_name, train_stations.name, train_stations.lat, train_stations.lng, "+
+            distance_calculation+" as distance\n", stationFilter.Lat, stationFilter.Long).
+		Where("active = ?", 1).
+        Order("distance ASC").
+		Count(&count).Error	
+
+	if err != nil {
+		r.logger.Errorf("Failed to train stations on page: %s", err.Error())
+		return -1, err
+	}
+
+	return count, nil
+
+}

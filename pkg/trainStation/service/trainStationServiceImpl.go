@@ -34,12 +34,18 @@ func (s *trainStationServiceImpl) GetStationNearMe(stationFilter *_trainStationM
 	return stationModelList, nil
 }
 
-func (s *trainStationServiceImpl) GetStationNearMeOnPage(stationFilter *_trainStationModel.StationPaginateFilter) ([]*_trainStationModel.Station, error){
+func (s *trainStationServiceImpl) GetStationNearMeOnPage(stationFilter *_trainStationModel.StationPaginateFilter) (*_trainStationModel.StationOnPage, error){
 
 	stationList, err := s.trainStationRepository.GetStationNearMeOnPage(stationFilter)
 	if err != nil {
 		return nil, err
 	}
+
+	count, err := s.trainStationRepository.CountStationNearMe(stationFilter)
+	if err != nil {
+		return nil, err
+	}
+
 
 	stationModelList := make([]*_trainStationModel.Station, 0)
 
@@ -47,7 +53,14 @@ func (s *trainStationServiceImpl) GetStationNearMeOnPage(stationFilter *_trainSt
 		stationModelList = append(stationModelList, station.ToStationModel())
 	}
 
-
+	totalPage := count / stationFilter.Size
+	if totalPage % stationFilter.Size != 0 {
+		totalPage++
+	}
 	
-	return stationModelList, nil
+	return &_trainStationModel.StationOnPage{
+				Station: stationModelList,
+				Page:    stationFilter.Page,
+				Size:    totalPage,
+			}, err
 }

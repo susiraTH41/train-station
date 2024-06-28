@@ -68,6 +68,7 @@ func (s *echoServer) Start(){
 	quitChan := make(chan os.Signal, 1)
 	signal.Notify(quitChan, syscall.SIGINT, syscall.SIGTERM)
 	go s.gracefullyShutdown(quitChan)
+	
 	s.httpListener()
 }
 
@@ -138,6 +139,7 @@ func (s *echoServer) AuthRequir(pctx echo.Context) error {
 		Name:    "token",
 		Value:   t,
 		Expires: time.Now().Add(time.Hour * 72),
+		
 	})
 
 	return pctx.JSON(http.StatusOK, map[string]string{
@@ -156,7 +158,7 @@ func (s *echoServer) authRequired() echo.MiddlewareFunc  {
 			if err != nil {
 				return echo.NewHTTPError(http.StatusUnauthorized, "missing authorization header")
 			}
-		
+			
 			jwtSecretKey := []byte(os.Getenv("SECRET"))
 		
 			token, err := jwt.ParseWithClaims(cookie.Value, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
@@ -169,5 +171,7 @@ func (s *echoServer) authRequired() echo.MiddlewareFunc  {
 		  
 			return next(pctx)
 		}
+
 	}
-  }
+
+}

@@ -11,6 +11,14 @@ type (
 				
 		}
 
+		StationOnPage struct {
+			Station    	[]*Station `json:"station"`
+			Page 		int64  `json:"page"`
+			Size 		int64  `json:"size"`
+				
+				
+		}
+
 		StationFilter struct {
 			Lat float64 `query:"lat" validate:"omitempty"`
 			Long float64 `query:"long" validate:"omitempty"`
@@ -24,10 +32,6 @@ type (
 			Page 	int64  `query:"page" validate:"required,gt=0"`
 			Size 	int64  `query:"size" validate:"required,min=1,max=20"`
 		}
-
-
-
-
 
 )
 

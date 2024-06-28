@@ -14,7 +14,7 @@ type TrainStation struct {
 	EnShort         string  `json:"en_short"gorm:"type:varchar(64);"`
 	Chname          string  `json:"chname"gorm:"type:varchar(64);"`
 	Controldivision int     `json:"controldivision" type:"integer"`
-	ExactKm         int    `json:"exact_km" type:"integer"`
+	ExactKm         int     `json:"exact_km" type:"integer"`
 	ExactDistance   int     `json:"exact_distance" type:"integer"`
 	Km              int     `json:"km" type:"integer" `
 	Class           int     `json:"class"`

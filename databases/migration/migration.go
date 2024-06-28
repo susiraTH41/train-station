@@ -2,9 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
+	"github.com/robfig/cron/v3"
 	"github.com/susiraTH41/train-station/config"
 	"github.com/susiraTH41/train-station/databases"
 	"github.com/susiraTH41/train-station/entities"
@@ -15,16 +17,36 @@ func main() {
 	conf := config.ConfigGetting()
 	db := databases.NewPostgresDatabase(conf.Database)
 
-	TrainStationData(db)
+	// TrainStationData(db)
 
 	tx := db.Connect().Begin()
 
-	AddStationFromAPI(tx, conf.LinkAPI.GetStationUrl)
+	// AddStationFromAPI(tx, conf.LinkAPI.GetStationUrl)
 
-	if err := tx.Commit().Error; err != nil {
-		tx.Rollback()
-		panic(err)
-	}
+	// if err := tx.Commit().Error; err != nil {
+	// 	tx.Rollback()
+	// 	panic(err)
+	// }
+
+	// ch := time.NewTicker(1 * time.Second)
+
+	// go func() {
+	// 	for range ch.C {
+	// 		log.Printf("Tick at: %v\n", time.Now())
+
+	// 	}
+	// }()
+
+	// time.Sleep(5 * time.Second)
+    // ch.Stop()
+
+	c := cron.New()
+
+	c.AddFunc("@every 1s",      
+	func() { AddStationFromAPI(tx, conf.LinkAPI.GetStationUrl) })
+	c.Start()
+
+	select {}
 
 }
 
@@ -55,6 +77,7 @@ func AddStationFromAPI(tx *gorm.DB, url string) {
 	json.Unmarshal(body, &stationJsonList)
 
 
-	tx.CreateInBatches(stationJsonList, len(stationJsonList))
+	tx.Commit().UpdateColumns(stationJsonList)
+	fmt.Println("done") 
 }
 

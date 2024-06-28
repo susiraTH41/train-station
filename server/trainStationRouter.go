@@ -7,7 +7,7 @@ import (
 	_trainStationService "github.com/susiraTH41/train-station/pkg/trainStation/service"
 )
 
-func (s *echoServer) initTrainStationRouter( middleware echo.MiddlewareFunc){
+func (s *echoServer) initTrainStationRouter(middleware echo.MiddlewareFunc){
 	router := s.app.Group("/v1/train-station")
 
 	trainStationRepository := _trainStationRepository.NewTrainStationRepositoryImpl(s.db, s.app.Logger)

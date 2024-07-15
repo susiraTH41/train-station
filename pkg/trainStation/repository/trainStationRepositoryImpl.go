@@ -109,7 +109,7 @@ func (r *trainStationRepositoryImpl) GetTemp() ([]*entities.Temp, error){
 	items := make([]*entities.Temp, 0)
 
 
-	if err := query.Find(&items).Error; err != nil {
+	if err := query.Order("created_at DESC").Limit(1).Find(&items).Error; err != nil {
 		r.logger.Error("Failed to find items", err.Error())
 		return nil, err
 	}

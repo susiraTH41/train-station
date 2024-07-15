@@ -1,9 +1,11 @@
 package service
 
-import(
-	_trainStationRepository "github.com/susiraTH41/train-station/pkg/trainStation/repository"
-	_trainStationModel "github.com/susiraTH41/train-station/pkg/trainStation/model"
+import (
+	"time"
 
+	"github.com/susiraTH41/train-station/entities"
+	_trainStationModel "github.com/susiraTH41/train-station/pkg/trainStation/model"
+	_trainStationRepository "github.com/susiraTH41/train-station/pkg/trainStation/repository"
 )
 
 type trainStationServiceImpl struct {
@@ -63,4 +65,28 @@ func (s *trainStationServiceImpl) GetStationNearMeOnPage(stationFilter *_trainSt
 				Page:    stationFilter.Page,
 				Size:    totalPage,
 			}, err
+}
+
+func (s *trainStationServiceImpl) Creating(itema string) (*entities.Temp, error) {
+
+	item := &entities.Temp{
+		CreatedAt: time.Now(),
+		TempoNow: itema,
+	}
+
+	tempEntity, err := s.trainStationRepository.Creating(item)
+	if err != nil {
+		return  nil,err
+	}
+
+	return tempEntity, err
+}
+
+func (s *trainStationServiceImpl) GetTemp() ([]*entities.Temp, error){
+	stationList, err := s.trainStationRepository.GetTemp()
+	if err != nil {
+		return nil, err
+	}
+	
+	return stationList, nil
 }

@@ -86,3 +86,35 @@ func (r *trainStationRepositoryImpl) CountStationNearMe(stationFilter *_trainSta
 	return count, nil
 
 }
+
+func (r *trainStationRepositoryImpl) Creating(tempEntity *entities.Temp) (*entities.Temp, error){
+
+	insertedTemp := new(entities.Temp)
+
+	if err := r.db.Connect().Create(tempEntity).Scan(insertedTemp).Error; err != nil {
+		r.logger.Error("Creating player failed", err.Error())
+		return nil, err
+	}
+
+	return insertedTemp, nil
+	
+
+}//GetTemp() (*entities.Temp, error)
+
+
+func (r *trainStationRepositoryImpl) GetTemp() ([]*entities.Temp, error){
+
+	query := r.db.Connect().Model(&entities.Temp{})
+
+	items := make([]*entities.Temp, 0)
+
+
+	if err := query.Find(&items).Error; err != nil {
+		r.logger.Error("Failed to find items", err.Error())
+		return nil, err
+	}
+
+	return items, nil
+}
+
+

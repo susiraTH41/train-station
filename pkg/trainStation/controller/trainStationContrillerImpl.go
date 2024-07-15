@@ -60,3 +60,34 @@ func (c *trainStationControllerImpl) GetStationNearMeOnPage(pctx echo.Context) e
 }
 
 
+func (c *trainStationControllerImpl) Creating(pctx echo.Context) error {
+	stationFilter := new(_trainStationModel.TempModel)
+
+	customEchoRequest := custom.NewCustomEchoRequest(pctx)
+	
+	if err := customEchoRequest.Bind(stationFilter); err != nil {
+		return pctx.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+
+	stationModelList , err := c.trainStationService.Creating(stationFilter.TempNum)
+	if err != nil {
+		return pctx.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+
+	return pctx.JSON(http.StatusOK, stationModelList)
+}
+
+
+func (c *trainStationControllerImpl) GetTemp(pctx echo.Context) error{
+
+
+	stationModelList , err := c.trainStationService.GetTemp()
+	if err != nil {
+		return pctx.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+
+	return pctx.JSON(http.StatusOK, stationModelList)
+}

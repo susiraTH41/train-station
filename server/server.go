@@ -49,19 +49,19 @@ func NewEchoServer(conf *config.Config,db databases.Database) *echoServer {
 }
 
 func (s *echoServer) Start(){
-	corsMiddleware := getCORSMiddleware(s.conf.Server.AllowOrigins)
-	bodyLimitMiddleware := getBodyLimitMiddleware(s.conf.Server.BodyLimit)
-	timeOutMiddleware := getTimeOutMiddleware(s.conf.Server.TimeOut) 
+	// corsMiddleware := getCORSMiddleware(s.conf.Server.AllowOrigins)
+	// bodyLimitMiddleware := getBodyLimitMiddleware(s.conf.Server.BodyLimit)
+	// timeOutMiddleware := getTimeOutMiddleware(s.conf.Server.TimeOut) 
 
 
 	s.app.Use(middleware.Logger())
-	s.app.Use(corsMiddleware)
-	s.app.Use(bodyLimitMiddleware)
-	s.app.Use(timeOutMiddleware)
+	// s.app.Use(corsMiddleware)
+	// s.app.Use(bodyLimitMiddleware)
+	// s.app.Use(timeOutMiddleware)
 
-	s.app.GET("/v1/auth",s.AuthRequir)
+	// s.app.GET("/v1/auth",s.AuthRequir)
 
-	s.initTrainStationRouter(s.authRequired())
+	s.initTrainStationRouter()
 
 	s.app.GET("/v1/health" , s.healthCheck)
 
@@ -98,28 +98,28 @@ func (s *echoServer) healthCheck(c echo.Context) error {
 
 
 
-func getTimeOutMiddleware(timeout time.Duration) echo.MiddlewareFunc {
-	return middleware.TimeoutWithConfig(middleware.TimeoutConfig{
-		Skipper:middleware.DefaultSkipper,
-		ErrorMessage: "Request timeout",
-		Timeout: timeout * time.Second,
-	})
-}
+// func getTimeOutMiddleware(timeout time.Duration) echo.MiddlewareFunc {
+// 	return middleware.TimeoutWithConfig(middleware.TimeoutConfig{
+// 		Skipper:middleware.DefaultSkipper,
+// 		ErrorMessage: "Request timeout",
+// 		Timeout: timeout * time.Second,
+// 	})
+// }
 
 
-func getCORSMiddleware(allowOrigins []string) echo.MiddlewareFunc {
-	return middleware.CORSWithConfig(middleware.CORSConfig{
-		Skipper: middleware.DefaultSkipper,
-		AllowOrigins: allowOrigins,
-		AllowMethods: []string{echo.GET,echo.POST },
-		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept}, 
+// func getCORSMiddleware(allowOrigins []string) echo.MiddlewareFunc {
+// 	return middleware.CORSWithConfig(middleware.CORSConfig{
+// 		Skipper: middleware.DefaultSkipper,
+// 		AllowOrigins: allowOrigins,
+// 		AllowMethods: []string{echo.GET,echo.POST },
+// 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept}, 
 
-	})
-}
+// 	})
+// }
 
-func getBodyLimitMiddleware(bodyLimit string) echo.MiddlewareFunc {
-	return middleware.BodyLimit(bodyLimit)
-}
+// func getBodyLimitMiddleware(bodyLimit string) echo.MiddlewareFunc {
+// 	return middleware.BodyLimit(bodyLimit)
+// }
 
 func (s *echoServer) AuthRequir(pctx echo.Context) error {
 	token := jwt.New(jwt.SigningMethodHS256)

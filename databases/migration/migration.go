@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/robfig/cron/v3"
 	"github.com/susiraTH41/train-station/config"
 	"github.com/susiraTH41/train-station/databases"
 	"github.com/susiraTH41/train-station/entities"
@@ -20,7 +19,13 @@ func main() {
 	// TrainStationData(db)
 
 	tx := db.Connect().Begin()
+	tempMigration(tx)
 
+
+	if err := tx.Commit().Error; err != nil {
+		tx.Rollback()
+		panic(err)
+	}
 	// AddStationFromAPI(tx, conf.LinkAPI.GetStationUrl)
 
 	// if err := tx.Commit().Error; err != nil {
@@ -40,13 +45,13 @@ func main() {
 	// time.Sleep(5 * time.Second)
     // ch.Stop()
 
-	c := cron.New()
+	// c := cron.New()
 
-	c.AddFunc("@every 1s",      
-	func() { AddStationFromAPI(tx, conf.LinkAPI.GetStationUrl) })
-	c.Start()
+	// c.AddFunc("@every 1s",      
+	// func() { AddStationFromAPI(tx, conf.LinkAPI.GetStationUrl) })
+	// c.Start()
 
-	select {}
+	// select {}
 
 }
 
@@ -55,6 +60,11 @@ func TrainStationData(db databases.Database) {
 	db.Connect().Migrator().CreateTable(&entities.TrainStation{})
 
 }
+
+func tempMigration(tx *gorm.DB) {
+	tx.Migrator().CreateTable(&entities.Temp{})
+}
+
 
 func AddStationFromAPI(tx *gorm.DB, url string) {
 	resp, err := http.Get(url)

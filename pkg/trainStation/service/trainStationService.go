@@ -8,6 +8,6 @@ import (
  type TrainStationService interface{
 	GetStationNearMe(stationFilter *_trainStationModel.StationFilter) ([]*_trainStationModel.Station, error)
 	GetStationNearMeOnPage(stationFilter *_trainStationModel.StationPaginateFilter) (*_trainStationModel.StationOnPage, error)
-	Creating(item string)  (*entities.Temp, error)
+	Creating(item *_trainStationModel.TempModel)  (*entities.Temp, error)
 	GetTemp() ([]*entities.Temp, error)
 }

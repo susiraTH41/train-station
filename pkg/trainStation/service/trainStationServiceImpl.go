@@ -67,11 +67,12 @@ func (s *trainStationServiceImpl) GetStationNearMeOnPage(stationFilter *_trainSt
 			}, err
 }
 
-func (s *trainStationServiceImpl) Creating(itema string) (*entities.Temp, error) {
+func (s *trainStationServiceImpl) Creating(itema *_trainStationModel.TempModel) (*entities.Temp, error) {
 
 	item := &entities.Temp{
 		CreatedAt: time.Now(),
-		TempoNow: itema,
+		TempoNow: itema.TempNum,
+		Humidity: itema.Humidity,
 	}
 
 	tempEntity, err := s.trainStationRepository.Creating(item)

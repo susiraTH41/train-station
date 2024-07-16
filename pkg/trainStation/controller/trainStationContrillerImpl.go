@@ -70,7 +70,7 @@ func (c *trainStationControllerImpl) Creating(pctx echo.Context) error {
 	}
 
 
-	stationModelList , err := c.trainStationService.Creating(stationFilter.TempNum)
+	stationModelList , err := c.trainStationService.Creating(stationFilter)
 	if err != nil {
 		return pctx.JSON(http.StatusInternalServerError, err.Error())
 	}
